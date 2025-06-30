@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  log-writer:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    volumes:
+      - logs-data:/logs
+
+  fluentd:
+    build:
+      context: ./fluentd
+    volumes:
+      - logs-data:/logs
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    # For easy debugging
+    tty: true
+
+volumes:
+  logs-data:
